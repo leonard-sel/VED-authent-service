@@ -3,11 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 // var apiRouter = require('./routes/api');
-const bodyParser = require('body-parser');
 
 var app = express();
 
@@ -29,12 +29,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    // res.json({
-    //     url: fullUrl
-    // });
+// Global error handlers
+app.use((req, res, next) => {
     next(createError(404));
 });
 

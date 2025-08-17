@@ -2,7 +2,39 @@ extends layout
 
 block content
   h1= title
-  //- p Hello #{title}
-  //- audio(src="https://rr1---sn-jhjup-i5os.googlevideo.com/videoplayback?expire=1678264387&ei=4_MHZMC_LI2hlQTg-qHoBA&ip=183.91.3.118&id=o-AMe1b4hmgPIXV94kI3ldI7jiyw6ax7XVnhVc81i7OL7a&itag=251&source=youtube&requiressl=yes&mh=xK&mm=31%2C26&mn=sn-jhjup-i5os%2Csn-30a7ynek&ms=au%2Conr&mv=m&mvi=1&pl=24&initcwndbps=747500&vprv=1&mime=audio%2Fwebm&ns=XFOx6ZHrfEazWIV-mJsBen8L&gir=yes&clen=5183481&otfp=1&dur=307.041&lmt=1626498504276714&mt=1678242326&fvip=3&keepalive=yes&fexp=24007246&c=WEB&txp=5311222&n=Hu4dLWqnoobhYA&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cotfp%2Cdur%2Clmt&sig=AOq0QJ8wRgIhALYoQgeFWPaV9fAk7jhBJUfTSuW_eDNgUVmKp_nhfdJkAiEAqnC0xbylwq0843kLF-si-wgCkWGORb6f-mNsXI0E__Q%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRQIgUlUpr2L-j5fKs9N-6cKJ4FiGtCcvhlk8HV4yIIW0P04CIQCizEj-eR_q2idIq3-bA4rHGL8QUyUqLCHbaT6weW5igw%3D%3D" 
-  //- controls=true
-  //- ) 
+  div(class="input-group mb-3")
+    span(class="input-group-text") #
+    input(type="text", id="txtInput", placeholder="Enter your text", class="form-control" )
+    button(type="button", id="btnSubmit", class="btn btn-primary") Submit
+  
+  div Response: <span id="result"></span>
+
+  script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+  script.
+    function submitText() {
+      const txtInput = $('#txtInput');
+      const userInput = txtInput.val();
+      $.post('change', { text: userInput }, function(response) {
+        // Handle successful response
+        const receivedText = response.received;
+        $('#result').text(JSON.stringify(receivedText));
+        txtInput.val('');
+      }).fail(function(xhr, status, error) {
+        // Handle error
+        $('#result').html('Error: ' + error);
+      });
+    }
+
+    $(document).ready(function() {
+      const txtInput = $('#txtInput');
+      txtInput.on('keypress', function(event) {
+        if (event.key === 'Enter') {
+          submitText();
+        }
+      });
+      const btnSubmit = $('#btnSubmit');
+      btnSubmit.on('click', function() {
+        submitText();
+      });
+
+    });

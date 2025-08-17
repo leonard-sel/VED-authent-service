@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
+var bcrypt = require('bcrypt');
 // const UserCtrl = require('../Controlers/UserCtrl');
 // var db = require("../database/mongo");
 
@@ -28,17 +29,32 @@ function trace(obj, msg) {
 // }
 //==============================================================
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
     res.render('index', {
         title: 'Express Services'
     });
 });
 
-// router.post("/submit_user", UserCtrl.submitUser);
-// router.post("/authentication", UserCtrl.authentication);
+router.post('/change', async function (req, res, next) {
+    const text = req.body.text;
+    const salt = bcrypt.genSaltSync(11);
+    const text_hash = bcrypt.hashSync(text, salt);
+    return res.json({ received: text_hash });
+});
 
-// router.post("/get_date_data", EarningsCtrl.getList);
-// router.post("/submit_earnings", EarningsCtrl.submitDate);
-// router.post("/remove_earnings", EarningsCtrl.delete);
+router.get('/test', async function (req, res, next) {
+    return res.json({
+        message: 'Test route is working!',
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Add 404 handler - this should be the last route
+router.use(function (req, res, next) {
+    res.status(404).render('404', {
+        title: '404 - Page Not Found',
+        message: 'The page you are looking for does not exist.'
+    });
+});
 
 module.exports = router;
