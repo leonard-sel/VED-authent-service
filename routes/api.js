@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var db = require("../database/mongo");
 const fs = require('fs');
+// var db = require("../database/mongo");
 //----controlers add manual-----------
 // var User = require("../Controlers/UserCtrl")(db);
 // var Book = require("../Controlers/BookCtrl")(db);

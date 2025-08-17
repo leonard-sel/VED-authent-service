@@ -4,16 +4,6 @@ const fs = require('fs');
 // const UserCtrl = require('../Controlers/UserCtrl');
 // var db = require("../database/mongo");
 
-const Youtube = require("../Controlers/YoutubeCtrl")();
-
-const tiktok = require('tiktok-app-api');
-
-let tiktokApp;
-
-(async () => {
-  tiktokApp = await tiktok();
-})();
-
 /**
  * Trace function can log in fo to debug
  * @param {object} obj 
@@ -42,11 +32,6 @@ router.get('/', async function(req, res, next) {
     res.render('index', {
         title: 'Express Services'
     });
-    // const video = '6976969595781434626';
-    // const video = tiktokApp.getVideo('6976969595781434626');
-    // const videoInfo = await tiktokApp.getVideoInfo({id: '6976969595781434626'});
-    // console.log(videoInfo);
-    // return res.json(videoInfo);
 });
 
 // router.post("/submit_user", UserCtrl.submitUser);
@@ -55,7 +40,5 @@ router.get('/', async function(req, res, next) {
 // router.post("/get_date_data", EarningsCtrl.getList);
 // router.post("/submit_earnings", EarningsCtrl.submitDate);
 // router.post("/remove_earnings", EarningsCtrl.delete);
-
-router.get('/youtube', Youtube.index);
 
 module.exports = router;
